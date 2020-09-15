@@ -27,57 +27,83 @@
 <!-- Bootstrap readable themes -->
 <link href="${css}/bootstrap-readable-theme.css" rel="stylesheet">
 
+<!-- dataTables.bootstrap.css -->
+<link href="${css}/dataTables.bootstrap.css" rel="stylesheet">
+
 <!-- Custom CSS -->
-<link href="${css}/shop-homepage.css" rel="stylesheet">
+<link href="${css}/myapp.css" rel="stylesheet">
 
 <script>
 	window.menu = '${title}'
+		window.contextRoot = '${contextRoot}'
 </script>
 
 
 </head>
 
 <body>
-<div class="wrapper">
-	<!-- Navigation -->
-	<%@include file="./shared/navbar.jsp"%>
+	<div class="wrapper">
+		<!-- Navigation -->
+		<%@include file="./shared/navbar.jsp"%>
 
-<div class="content">
+		<div class="content">
 
-	<!-- Page Content -->
-	<c:if test="${userClickHome == true }">
-		<%@include file="home.jsp"%>
+			<!-- Page Content -->
+			<c:if test="${userClickHome == true }">
+				<%@include file="home.jsp"%>
 
-	</c:if>
+			</c:if>
 
-	<!-- Load only user click contact page -->
-	<c:if test="${userClickContact == true }">
-		<%@include file="contact.jsp"%>
+			<!-- Load only user click contact page -->
+			<c:if test="${userClickContact == true }">
+				<%@include file="contact.jsp"%>
 
-	</c:if>
-
-
-	<!-- Load only user click about page -->
-	<c:if test="${userClickAbout == true }">
-		<%@include file="about.jsp"%>
-
-	</c:if>
-
-</div>
-
-	<!-- Footer -->
-
-	<%@include file="./shared/footer.jsp"%>
-
-	<!-- jQuery -->
-	<script src="${js}/jquery.js"></script>
-
-	<!-- Bootstrap Core JavaScript -->
-	<script src="${js}/bootstrap.min.js"></script>
+			</c:if>
 
 
-	<script src="${js}/myapp.js"></script>
-</div>
+			<!-- Load only user click about page -->
+			<c:if test="${userClickAbout == true }">
+				<%@include file="about.jsp"%>
+
+			</c:if>
+
+			<!-- Load only user click view product page -->
+			<c:if
+				test="${userClickAllProducts == true or userClickCategoryProducts == true }">
+				<%@include file="listProduct.jsp"%>
+
+			</c:if>
+			
+			<!-- Loading single product page page -->
+			<c:if test="${userClickShowProducts == true }">
+				<%@include file="singleProduct.jsp"%>
+
+			</c:if>
+
+
+
+
+		</div>
+
+		<!-- Footer -->
+
+		<%@include file="./shared/footer.jsp"%>
+
+		<!-- jQuery -->
+		<script src="${js}/jquery.js"></script>
+
+		<!-- Bootstrap Core JavaScript -->
+		<script src="${js}/bootstrap.min.js"></script>
+
+		<!-- jquery.dataTables -->
+		<script src="${js}/jquery.dataTables.js"></script>
+		
+		<!-- dataTables.bootstrap -->
+		<script src="${js}/dataTables.bootstrap.js"></script>
+
+
+		<script src="${js}/myapp.js"></script>
+	</div>
 </body>
 
 </html>
