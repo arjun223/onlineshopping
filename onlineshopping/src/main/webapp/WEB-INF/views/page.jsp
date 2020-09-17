@@ -35,7 +35,7 @@
 
 <script>
 	window.menu = '${title}'
-		window.contextRoot = '${contextRoot}'
+	window.contextRoot = '${contextRoot}'
 </script>
 
 
@@ -73,10 +73,16 @@
 				<%@include file="listProduct.jsp"%>
 
 			</c:if>
-			
+
 			<!-- Loading single product page page -->
 			<c:if test="${userClickShowProducts == true }">
 				<%@include file="singleProduct.jsp"%>
+
+			</c:if>
+
+			<!-- Loading manage product product page -->
+			<c:if test="${userClickManageProduct == true }">
+				<%@include file="manageProducts.jsp"%>
 
 			</c:if>
 
@@ -97,12 +103,14 @@
 
 		<!-- jquery.dataTables -->
 		<script src="${js}/jquery.dataTables.js"></script>
-		
+
 		<!-- dataTables.bootstrap -->
 		<script src="${js}/dataTables.bootstrap.js"></script>
-
-
-		<script src="${js}/myapp.js"></script>
+		
+		<!-- bootbox-->
+		<script src="${js}/bootbox.min.js"></script> 
+		
+        <script src="${js}/myapp.js"></script>
 	</div>
 </body>
 
