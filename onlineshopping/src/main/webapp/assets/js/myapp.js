@@ -17,6 +17,9 @@ $(function() {
     case 'Manage Products':
 		$('#manageProducts').addClass('active');
 		break;
+	case 'Shopping Cart':
+		$('#userCart').addClass('active');
+		break;		
 			
 	default:
 	     if(menu == "Home") break;
@@ -107,15 +110,21 @@ $(function() {
 
 										str += '<a href="'+ window.contextRoot +'/show/'+ data +'/product" class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></a> &#160;';
 										
+										if(userRole == 'ADMIN')	{
+										str += '<a href="'+ window.contextRoot +'/manage/'+ data +'/product" class="btn btn-success"><span class="glyphicon glyphicon-pencil"></span></a>';	
+										}
+										else{
+										
+										
 										if(row.quantity < 1){
 											str += '<a href="javascript:void(0)" class="btn btn-success"><span class="glyphicon glyphicon-shopping-cart"></span></a>';
 										}
 										
 										else{
-											
-										 str += '<a href="'+ window.contextRoot +'/cart/add/'+ data +'/product" class="btn btn-success"><span class="glyphicon glyphicon-shopping-cart"></span></a>';	
+											str += '<a href="'+ window.contextRoot +'/cart/add/'+ data +'/product" class="btn btn-success"><span class="glyphicon glyphicon-shopping-cart"></span></a>';
+																	
+										  }
 										}
-										
 											 
                                        return str;
 							   }
@@ -298,10 +307,147 @@ code for jquary datatable for admin
 
 
 
-
-
-
+// validating the product form element	
+	// fetch the form element
+	var $categoryForm = $('#categoryForm');
 	
+	if($categoryForm.length) {
+		
+		$categoryForm.validate({			
+				rules: {
+					name: {
+						required: true,
+						minlength: 3
+					},
+					description: {
+						required: true,
+						minlength: 5					
+					}				
+				},
+				messages: {					
+					name: {
+						required: 'Please enter product name!',
+						minlength: 'Please enter atleast five characters'
+					},
+					description: {
+						required: 'Please enter Decription !',
+						minlength: 'Please enter atleast five characters'
+					}					
+				},
+				errorElement : "em",
+				errorPlacement : function(error, element) {
+					error.addClass('help-block');
+					error.insertAfter(element);
+				}				
+			}
+		
+		);
+		
+	}
+
+
+
+
+
+// validating the product form element	
+	// fetch the form element
+	var $loginForm = $('#loginForm');
+	
+	if($loginForm.length) {
+		
+		$loginForm.validate({			
+				rules: {
+					username: {
+						required: true,
+						email: true
+					},
+					password: {
+						required: true
+											
+					}				
+				},
+				messages: {					
+					username: {
+						required: 'Please enter your email!',
+						
+					},
+					password: {
+						required: 'Please enter password !',
+						
+					}					
+				},
+				errorElement : "em",
+				errorPlacement : function(error, element) {
+					error.addClass('help-block');
+					error.insertAfter(element);
+				}				
+			}
+		
+		);
+		
+	}
+	
+	
+	
+				
+		
+	
+	
+	
+	// to tackel the csrf token
+	
+	// for handling CSRF token
+	var token = $('meta[name="_csrf"]').attr('content');
+	var header = $('meta[name="_csrf_header"]').attr('content');
+	
+	if((token!=undefined && header !=undefined) && (token.length > 0 && header.length > 0)) {		
+		// set the token header for the ajax request
+		$(document).ajaxSend(function(e, xhr, options) {			
+			xhr.setRequestHeader(header,token);			
+		});				
+	}
+	
+	
+	
+	
+	
+	/*------*/
+	/* handle refresh cart*/	
+	$('button[name="refreshCart"]').click(function(){
+		var cartLineId = $(this).attr('value');
+		var countElement = $('#count_' + cartLineId);
+		var originalCount = countElement.attr('value');
+		var currectCount = countElement.val();
+		
+		// do the checking only the count has changed
+		if(currectCount !== originalCount) {	
+		
+		
+		if(currectCount < 1 || currectCount > 10) {
+		      
+		      countElement.val(originalCount);
+		      
+		     bootbox.alert({
+					size: 'medium',
+			    	title: 'Error',
+			    	message: 'Product Count should be minimum 1 and maximum 10!'
+				});
+		      }
+		      
+		      else{
+		      	var updateUrl = window.contextRoot + '/cart/' + cartLineId + '/update?count=' + currectCount;
+				window.location.href = updateUrl;
+		      }
+		      
+		      }
+			
+			});
+	
+	
+	
+	
+	
+		
 });
 
 

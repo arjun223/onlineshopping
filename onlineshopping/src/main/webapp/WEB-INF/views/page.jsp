@@ -18,6 +18,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
 <meta name="author" content="">
+<meta name="_csrf" content="${_csrf.token}">
+<meta name="_csrf_header" content="${_csrf.headerName}">
 
 <title>online Shopping - ${title}</title>
 
@@ -85,6 +87,13 @@
 				<%@include file="manageProducts.jsp"%>
 
 			</c:if>
+			
+			
+			<!-- Loading cart page -->
+			<c:if test="${userClickShowCart == true }">
+				<%@include file="cart.jsp"%>
+
+			</c:if>
 
 
 
@@ -97,6 +106,10 @@
 
 		<!-- jQuery -->
 		<script src="${js}/jquery.js"></script>
+		
+		<!-- jquery validate-->
+        <script src="${js}/jquery.validate.js"></script>
+		
 
 		<!-- Bootstrap Core JavaScript -->
 		<script src="${js}/bootstrap.min.js"></script>
@@ -110,7 +123,12 @@
 		<!-- bootbox-->
 		<script src="${js}/bootbox.min.js"></script> 
 		
-        <script src="${js}/myapp.js"></script>
+		
+		<!-- custom js -->
+		<script src="${js}/myapp.js"></script>
+		
+		
+        
 	</div>
 </body>
 

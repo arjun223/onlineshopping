@@ -1,8 +1,15 @@
+
+<%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
 <head>
+
+<script>
+	window.userRole = '${userModel.role}';
+</script>
+
 <meta charset="ISO-8859-1">
 </head>
 <body>
@@ -24,22 +31,64 @@
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
 					<li id="about"><a href="${contextRoot}/about">About</a></li>
-					
-                    <li id="contact"><a href="${contextRoot}/contact">Contact</a></li>
-                    
+
+					<li id="contact"><a href="${contextRoot}/contact">Contact</a></li>
+
 					<li id="listProducts"><a
 						href="${contextRoot}/show/all/products">View Product</a></li>
-						
-						<li id="manageProducts"><a
-						href="${contextRoot}/manage/products">Manage Product</a></li>
 
-					
+
+                     <security:authorize access="hasAuthority('ADMIN')">
+					  <li id="manageProducts"><a
+						href="${contextRoot}/manage/products">Manage Product</a></li>
+                     </security:authorize>    
+
 				</ul>
+				<ul class="nav navbar-nav navbar-rignt">
+
+                     <security:authorize access="isAnonymous()">
+					<li id="login"><a href="${contextRoot}/login">login</a></li>
+
+					<li id="register"><a href="${contextRoot}/register">Sing
+							Up</a></li>
+
+                          </security:authorize>
+                      	<security:authorize access="isAuthenticated()">
+					<li class="dropdown" id="userCart"><a
+						class="btn btn-default dropdown-toggle" href="javascript:void(0)"
+						id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
+						aria-expanded="true"> ${userModel.fullName} <span
+							class="caret"></span>
+					</a>
+						<ul class="dropdown-menu" aria-labelledby="dropdownMenu1" >
+
+                             <security:authorize access="hasAuthority('USER')">
+							<li id="cart"><a href="${contextRoot}/cart/show"> <span
+									class="glyphicon glyphicon-shopping-cart"></span> &#160; <span
+									class="badge">${userModel.cart.cartLines}</span> - &#8377;
+									${userModel.cart.grandTotal}
+							   </a>
+						    </li>
+                          
+							<li role="separator" class="divider"></li>
+                            </security:authorize>
+                             
+							<li id="logout"><a href="${contextRoot}/perform-logout">Logout</a></li>
+						</ul>
+					</li>
+
+                  </security:authorize>
+
+				</ul>
+
 			</div>
 			<!-- /.navbar-collapse -->
 		</div>
 		<!-- /.container -->
 	</nav>
+
+
+
 
 </body>
 </html>
